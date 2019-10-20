@@ -29,10 +29,11 @@ public class TelaBuscar extends javax.swing.JPanel {
 
     /**
      * Creates new form TelaExibir
+     * @param animeControl
      */
-    public TelaBuscar() {
+    public TelaBuscar(AnimeControl animeControl) {
         initComponents();
-        animeControl = new AnimeControl();
+        this.animeControl = animeControl;
         //pnResultados.setLayout(new java.awt.FlowLayout());
         pnResultados.setLayout(new GridLayout(0, 1));
     }

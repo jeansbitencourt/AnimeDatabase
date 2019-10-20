@@ -355,6 +355,38 @@ public class AnimeControl {
         }
         return null;
     }
+    
+    public List<Anime> listarAssistindo() throws IOException{
+        List<Anime> lista = new ArrayList<>();
+        ResultSet rs;
+        try (Connection conn = DriverManager.getConnection(Tools.url);
+                Statement stmt = conn.createStatement()) {
+            rs = stmt.executeQuery("SELECT * FROM animes WHERE assistindo = true");
+            while (rs.next()) {
+                lista.add(preencherModel(rs));
+            }
+            return lista;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    
+    public List<Anime> listarAssistidos() throws IOException{
+        List<Anime> lista = new ArrayList<>();
+        ResultSet rs;
+        try (Connection conn = DriverManager.getConnection(Tools.url);
+                Statement stmt = conn.createStatement()) {
+            rs = stmt.executeQuery("SELECT * FROM animes WHERE assistido = 1");
+            while (rs.next()) {
+                lista.add(preencherModel(rs));
+            }
+            return lista;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
     public List<Anime> listarUltimos() throws IOException {
         List<Anime> lista = new ArrayList<>();
@@ -394,7 +426,7 @@ public class AnimeControl {
         try (Connection conn = DriverManager.getConnection(Tools.url);
                 Statement stmt = conn.createStatement()) {
 
-            sqlAlteraAnime = "UPDATE animes SET titulo = '" + anime.getTitulo() + "', generos = '" + anime.getGeneros() + "', ano = " + anime.getAno() + ", episodios = " + anime.getEpisodios() + ", episodiostotais = " + anime.getEpisodiosTotais() + ", info = '" + anime.getInfo() + "', nota = '" + anime.getNota() + "', capa = '" + anime.getCapa() + "', sinopse = '" + anime.getSinopse() + "', tituloalternativo = '" + anime.getTituloAlternativo() + "', trailerurl = '" + anime.getTrailerUrl() + "' WHERE id = " + anime.getId();
+            sqlAlteraAnime = "UPDATE animes SET titulo = '" + anime.getTitulo() + "', generos = '" + anime.getGeneros() + "', ano = " + anime.getAno() + ", episodios = " + anime.getEpisodios() + ", episodiostotais = " + anime.getEpisodiosTotais() + ", info = '" + anime.getInfo() + "', nota = '" + anime.getNota() + "', capa = '" + anime.getCapa() + "', sinopse = '" + anime.getSinopse() + "', tituloalternativo = '" + anime.getTituloAlternativo() + "', trailerurl = '" + anime.getTrailerUrl() + "', assistido = " + anime.getAssistido() + ", assistindo = " + anime.getAssistindo() + " WHERE id = " + anime.getId();
 
             resultado = stmt.executeUpdate(sqlAlteraAnime);
             Tela.taLog.append(Tools.getTime() + " - Atualizando anime " + anime.getTitulo() + " no banco de dados!" + System.getProperty("line.separator"));

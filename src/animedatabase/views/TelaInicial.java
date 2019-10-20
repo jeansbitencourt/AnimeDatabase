@@ -17,7 +17,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +46,7 @@ public class TelaInicial extends javax.swing.JPanel {
     private JanelaAnime janelaAnime;
     private MouseAdapter mouseEvent;
 
-    public TelaInicial() throws MalformedURLException, IOException {
+    public TelaInicial(AnimeControl animeControl) throws MalformedURLException, IOException {
         initComponents();
         sinopseAnime.setLineWrap(true);
         sinopseAnime.setWrapStyleWord(true);
@@ -57,7 +56,7 @@ public class TelaInicial extends javax.swing.JPanel {
         fundo.setOpaque(true);
         fundo.setBackground(new Color(0, 0, 0, 180));
         fundo.setBounds(0, 0, Tools.resWidth(), Tools.resHeight());
-        animeController = new AnimeControl();
+        animeController = animeControl;
         destaques = new JLabel();
         destaques.setBounds(0, 0, 0, 0);
         sinopseAnime.setBackground(new Color(6, 6, 6, 255));
@@ -68,11 +67,16 @@ public class TelaInicial extends javax.swing.JPanel {
         Image img = ImageIO.read(getClass().getResource("/animedatabase/icons/playpause.png"));
         Image resizedImage = img.getScaledInstance(80, 80, 100);
         pauseorplay.setIcon(new ImageIcon(resizedImage));
-        listaDestaques = animeController.listarDestaques();
+        
+        getDestaques();
 
         flagThread = true;
         AnimeChangeThread animeChangeThread = new AnimeChangeThread();
         animeChangeThread.start();
+    }
+    
+    public void getDestaques() throws IOException{
+        listaDestaques = animeController.listarDestaques();
     }
 
     public void destaques() {
