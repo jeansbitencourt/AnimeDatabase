@@ -7,12 +7,15 @@ package animedatabase.views;
 
 import animedatabase.controls.AnimeControl;
 import animedatabase.models.Anime;
+import animedatabase.tools.Tools;
 import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 
 /**
@@ -34,7 +37,18 @@ public class TelaAssistindo extends javax.swing.JPanel {
     }
 
     public void buscar() throws IOException {
-        listarResultados(animeControl.listarAssistindo());
+        Tela.taLog.append(Tools.getTime() + " Buscando animes em andamento" + System.getProperty("line.separator"));
+        Tela.taLog.setCaretPosition(Tela.taLog.getDocument().getLength());
+        new Thread() {                  
+            @Override
+            public void run() {
+                try {
+                    listarResultados(animeControl.listarAssistindo());
+                } catch (IOException ex) {
+                    Logger.getLogger(TelaBuscar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }.start();
     }
 
     private void listarResultados(List<Anime> lista) {
@@ -53,7 +67,7 @@ public class TelaAssistindo extends javax.swing.JPanel {
             labelCapa.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    new JanelaAnime(anime);
+                    new JanelaAnime(anime.getId());
                 }
 
             });

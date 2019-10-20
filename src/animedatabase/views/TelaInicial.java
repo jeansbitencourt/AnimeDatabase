@@ -122,7 +122,7 @@ public class TelaInicial extends javax.swing.JPanel {
                 if (flagThread) {
                     if (i > 4) {
                         i = 0;
-                        progCont = 1;
+                        progCont = 0;
                     }
                     if (t == 4999) {
                         progCont++;

@@ -57,18 +57,16 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="addList" max="32767" attributes="0"/>
-                                              <Component id="jLabel10" max="32767" attributes="0"/>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="remEpi" min="-2" pref="50" max="-2" attributes="0"/>
-                                                  <EmptySpace pref="94" max="32767" attributes="0"/>
-                                                  <Component id="addEpi" min="-2" pref="50" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Component id="remList" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="addComplete" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="remComplete" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="addList" max="32767" attributes="0"/>
+                                          <Component id="jLabel10" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="remEpi" min="-2" pref="50" max="-2" attributes="0"/>
+                                              <EmptySpace pref="94" max="32767" attributes="0"/>
+                                              <Component id="addEpi" min="-2" pref="50" max="-2" attributes="0"/>
                                           </Group>
+                                          <Component id="remList" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="addComplete" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="remComplete" alignment="0" max="32767" attributes="0"/>
                                           <Component id="btSalvar" max="32767" attributes="0"/>
                                           <Component id="btCancelar" alignment="0" pref="194" max="32767" attributes="0"/>
                                       </Group>

@@ -19,32 +19,45 @@ import javax.swing.JOptionPane;
  *
  * @author jeans
  */
-public class JanelaAnime extends javax.swing.JFrame {
+public final class JanelaAnime extends javax.swing.JFrame {
 
-    private final Anime anime;
+    private Anime anime;
     private AnimeControl animeControl;
 
     /**
      * Creates new form JanelaAnime
+     * @param animeId
      */
+    public JanelaAnime(Integer animeId) {
+        initComponents();
+        this.animeControl = new AnimeControl();
+        try {
+            this.anime = animeControl.buscar(animeId);
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaAnime.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        load();
+    }
+    
     public JanelaAnime(Anime anime) {
         initComponents();
-        this.anime = anime;
         this.animeControl = new AnimeControl();
+        this.anime = anime;
+        load();
+    }
+    
+    public void load(){
         this.setTitle("Todos os detalhes de " + anime.getTitulo());
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setIconImage(Tools.getIcon().getImage());
-
         try {
             carregarInformacoes();
         } catch (IOException ex) {
             Logger.getLogger(JanelaAnime.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         taSinopse.setLineWrap(true);
         taSinopse.setWrapStyleWord(true);
-
         lbCapa.requestFocus();
     }
 
@@ -406,7 +419,9 @@ public class JanelaAnime extends javax.swing.JFrame {
     private void addEpiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEpiActionPerformed
         try {
             Integer epi = Integer.parseInt(tfEpisodiosAssistidos.getText());
-            epi ++;
+            if(epi < anime.getEpisodiosTotais()){
+                epi ++;
+            }
             tfEpisodiosAssistidos.setText(epi.toString());
         } catch (Exception e) {
             tfEpisodiosAssistidos.setText("0");
@@ -476,6 +491,8 @@ public class JanelaAnime extends javax.swing.JFrame {
 
         if (!erro) {
             animeControl.alterar(anime);
+            Tela.taLog.append(Tools.getTime() + " Anime " + anime.getTitulo() + " alterado com sucesso!" + System.getProperty("line.separator"));
+            Tela.taLog.setCaretPosition(Tela.taLog.getDocument().getLength());
             JOptionPane.showMessageDialog(this,
                 "Alterações no cadastro do anime " + anime.getTitulo() + " salvas com sucesso!",
                 "Sucesso!",

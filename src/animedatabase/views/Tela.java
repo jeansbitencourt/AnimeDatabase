@@ -53,6 +53,16 @@ public class Tela extends javax.swing.JFrame {
 //            js.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 //            js.setPreferredSize(Tools.telaSize());
 //        }
+        try {
+            telaAssistidos.buscar();
+        } catch (IOException ex) {
+            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            telaAssistindo.buscar();
+        } catch (IOException ex) {
+            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -266,8 +266,17 @@ public class AnimeControl {
 
         return anime;
     }
+    
+    public Anime preencherModelBasico(ResultSet rs) throws SQLException, IOException{
+        Anime anime = new Anime();
+        anime.setTitulo(rs.getString("titulo"));
+        anime.setId(rs.getInt("id"));
+        anime.setCapa(rs.getString("capa"));
+        anime.setCapaImg(Tools.imageBase64ToImageIcon(anime.getCapa()));
+        return anime;
+    }
 
-    public Anime preencherModel(ResultSet rs) throws SQLException, IOException {
+    public Anime preencherModelCompleto(ResultSet rs) throws SQLException, IOException {
         Anime anime = new Anime();
         anime.setTitulo(rs.getString("titulo"));
         anime.setAno(rs.getInt("ano"));
@@ -339,15 +348,29 @@ public class AnimeControl {
         }
         return false;
     }
+    
+    public Anime buscar(Integer id) throws IOException {
+        ResultSet rs;
+        try (Connection conn = DriverManager.getConnection(Tools.url);
+                Statement stmt = conn.createStatement()) {
+            rs = stmt.executeQuery("SELECT * FROM animes WHERE id = " + id);
+            if (rs.next()) {
+                return preencherModelCompleto(rs);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
     public List<Anime> listar(String titulo) throws IOException {
         List<Anime> lista = new ArrayList<>();
         ResultSet rs;
         try (Connection conn = DriverManager.getConnection(Tools.url);
                 Statement stmt = conn.createStatement()) {
-            rs = stmt.executeQuery("SELECT * FROM animes WHERE titulo LIKE '%" + titulo + "%'");
+            rs = stmt.executeQuery("SELECT id, titulo, capa FROM animes WHERE titulo LIKE '%" + titulo + "%'");
             while (rs.next()) {
-                lista.add(preencherModel(rs));
+                lista.add(preencherModelBasico(rs));
             }
             return lista;
         } catch (SQLException e) {
@@ -361,9 +384,9 @@ public class AnimeControl {
         ResultSet rs;
         try (Connection conn = DriverManager.getConnection(Tools.url);
                 Statement stmt = conn.createStatement()) {
-            rs = stmt.executeQuery("SELECT * FROM animes WHERE assistindo = true");
+            rs = stmt.executeQuery("SELECT id, titulo, capa FROM animes WHERE assistindo = true");
             while (rs.next()) {
-                lista.add(preencherModel(rs));
+                lista.add(preencherModelBasico(rs));
             }
             return lista;
         } catch (SQLException e) {
@@ -377,9 +400,9 @@ public class AnimeControl {
         ResultSet rs;
         try (Connection conn = DriverManager.getConnection(Tools.url);
                 Statement stmt = conn.createStatement()) {
-            rs = stmt.executeQuery("SELECT * FROM animes WHERE assistido = 1");
+            rs = stmt.executeQuery("SELECT id, titulo, capa FROM animes WHERE assistido = 1");
             while (rs.next()) {
-                lista.add(preencherModel(rs));
+                lista.add(preencherModelBasico(rs));
             }
             return lista;
         } catch (SQLException e) {
@@ -395,7 +418,7 @@ public class AnimeControl {
                 Statement stmt = conn.createStatement()) {
             rs = stmt.executeQuery("SELECT * FROM animes ORDER BY id DESC LIMIT 5");
             while (rs.next()) {
-                lista.add(preencherModel(rs));
+                lista.add(preencherModelCompleto(rs));
             }
             return lista;
         } catch (SQLException e) {
@@ -411,7 +434,7 @@ public class AnimeControl {
                 Statement stmt = conn.createStatement()) {
             rs = stmt.executeQuery("SELECT * FROM animes ORDER BY RANDOM() LIMIT 5");
             while (rs.next()) {
-                lista.add(preencherModel(rs));
+                lista.add(preencherModelCompleto(rs));
             }
             return lista;
         } catch (SQLException e) {

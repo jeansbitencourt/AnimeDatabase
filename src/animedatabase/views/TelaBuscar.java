@@ -7,6 +7,7 @@ package animedatabase.views;
 
 import animedatabase.controls.AnimeControl;
 import animedatabase.models.Anime;
+import animedatabase.tools.Tools;
 import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -44,7 +45,18 @@ public class TelaBuscar extends javax.swing.JPanel {
             dialogResult = JOptionPane.showConfirmDialog(null, "Campo de busca vazio, você deseja listar todos os resultados?", "Aviso", JOptionPane.YES_NO_OPTION);
         }
         if (!titulo.isEmpty() || dialogResult == JOptionPane.YES_OPTION) {
-            listarResultados(animeControl.listar(titulo));
+            Tela.taLog.append(Tools.getTime() + " Buscando animes por '" + titulo + "'" + System.getProperty("line.separator"));
+            Tela.taLog.setCaretPosition(Tela.taLog.getDocument().getLength());
+            new Thread() {                  
+                @Override
+                public void run() {
+                    try {
+                        listarResultados(animeControl.listar(titulo));
+                    } catch (IOException ex) {
+                        Logger.getLogger(TelaBuscar.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }.start();
         }
     }
 
@@ -64,7 +76,7 @@ public class TelaBuscar extends javax.swing.JPanel {
             labelCapa.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    new JanelaAnime(anime);
+                    new JanelaAnime(anime.getId());
                 }
 
             });
