@@ -135,7 +135,8 @@ public class AnimeControl {
 
             if (line.contains("<span itemprop=\"image\">")) {
                 try {
-                    imgUrl = "https://www.anbient.com" + line.split("img src=\"")[1].split("\"")[0].trim();
+                    imgUrl = line.split("img src=\"")[1].split("\"")[0].trim();
+                    System.out.println(imgUrl);
                     if (salvarImgs) {
                         Tools.saveImg(imgUrl, Tools.formataNomeArquivo(anime.getTitulo()), Tools.formataNomeArquivo(anime.getTitulo()));
                     }
@@ -223,7 +224,7 @@ public class AnimeControl {
 
                 if (line.contains("<a href=\"")) {
                     countScreenshots++;
-                    imgUrl = "https://www.anbient.com" + line.split("<a href=\"")[1].split("\"")[0].trim();
+                    imgUrl = line.split("<a href=\"")[1].split("\"")[0].trim();
                     if (imgUrl.contains("/files/")) {
                         if (salvarImgs) {
                             try {
